@@ -59,7 +59,7 @@ int main(void)
 		spi_init();
 		ST7735_Init();
 	ST7735_FillScreen(ST7735_WHITE);
-	ST7735_FillScreen(ST7735_BLACK);
+	ST7735_FillScreen(ST7735_CYAN);
     
 
     while (1)
