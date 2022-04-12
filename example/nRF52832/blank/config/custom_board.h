@@ -83,14 +83,14 @@
 
 #ifdef USE_SPI
 
-#define SPI_PIN_SCK				9
-#define SPI_PIN_MOSI			10
-#define SPI_PIN_MISO			0xff
+#define SPI_PIN_SCK				26
+#define SPI_PIN_MOSI			27
+#define SPI_PIN_MISO			28
 
-#define TFT_RESET 				5
-#define TFT_DC 						30
-#define TFT_CS 						29
-#define TFT_BL 						28
+//#define TFT_RESET 				5
+#define TFT_DC 						29
+#define TFT_CS 						25
+#define TFT_BL 						30
 
 #endif
 

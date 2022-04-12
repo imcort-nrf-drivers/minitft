@@ -58,11 +58,11 @@ static const uint8_t
   init_cmds2[] = {            // Init for 7735S, part 2 (160x80 display)
     3,                        //  3 commands in list:
     ST7735_CASET  , 4      ,  //  1: Column addr set, 4 args, no delay:
-      0x00, 0x00,             //     XSTART = 0
-      0x00, 0x4F,             //     XEND = 79
+      0x00, 0x1A,             //     XSTART = 0
+      0x00, 0x69,             //     XEND = 79
     ST7735_RASET  , 4      ,  //  2: Row addr set, 4 args, no delay:
-      0x00, 0x00,             //     XSTART = 0
-      0x00, 0x9F ,            //     XEND = 159
+      0x00, 0x01,             //     XSTART = 0
+      0x00, 0xA0 ,            //     XEND = 159
     ST7735_INVON, 0 },        //  3: Invert colors
 #endif
 
@@ -83,15 +83,15 @@ static const uint8_t
     ST7735_DISPON ,    DELAY, //  4: Main screen turn on, no args w/delay
       100 };                  //     100 ms delay
 
-static void ST7735_Reset() {
-	
-		delay(25);
-		digitalWrite(TFT_RESET, 0);
-    delay(25);
-		digitalWrite(TFT_RESET, 1);
-    delay(50);
-	
-}
+//static void ST7735_Reset() {
+//	
+//		delay(25);
+//		digitalWrite(TFT_RESET, 0);
+//    delay(25);
+//		digitalWrite(TFT_RESET, 1);
+//    delay(50);
+//	
+//}
 
 static void ST7735_WriteCommand(uint8_t cmd) {
 
@@ -107,7 +107,7 @@ static void ST7735_WriteData(uint8_t* buff, size_t buff_size) {
 		digitalWrite(TFT_DC, 1);
 		digitalWrite(TFT_CS, 0);
 		
-		spi_transfer(buff, buff_size, NULL, 0);
+		spi_send(buff, buff_size);
 		
 		digitalWrite(TFT_CS, 1);
 
@@ -157,7 +157,7 @@ void ST7735_SetAddressWindow(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1) {
 
 void ST7735_Init() {
 		
-		pinMode(TFT_RESET, OUTPUT);
+		//pinMode(TFT_RESET, OUTPUT);
 		pinMode(TFT_DC, OUTPUT);
 		pinMode(TFT_CS, OUTPUT);
 		pinMode(TFT_BL, OUTPUT);
@@ -165,7 +165,7 @@ void ST7735_Init() {
 		digitalWrite(TFT_CS, 1);
 		digitalWrite(TFT_BL, 1);
 	
-    ST7735_Reset();
+    //ST7735_Reset();
     ST7735_ExecuteCommandList(init_cmds1);
     ST7735_ExecuteCommandList(init_cmds2);
     ST7735_ExecuteCommandList(init_cmds3);
