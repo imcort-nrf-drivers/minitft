@@ -59,8 +59,9 @@ int main(void)
 		spi_init();
 		ST7735_Init();
 	ST7735_FillScreen(ST7735_WHITE);
-	ST7735_FillScreen(ST7735_CYAN);
-    
+	//ST7735_FillScreen(ST7735_CYAN);
+    ST7735_FillRectangle(0,0,50,50,ST7735_CYAN);
+	ST7735_FillRectangle(100,0,50,50,ST7735_CYAN);
 
     while (1)
     {

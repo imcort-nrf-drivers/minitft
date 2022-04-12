@@ -1,8 +1,5 @@
 /* vim: set ai et ts=4 sw=4: */
 #include "st7735.h"
-#include "transfer_handler.h"
-
-#define USE_HORIZONTAL 0
 
 static void ST7735_WriteCommand(uint8_t cmd) {
 
@@ -192,9 +189,9 @@ void ST7735_Init() {
 }
 
 void ST7735_DrawPixel(uint16_t x, uint16_t y, uint16_t color) {
-    if((x >= ST7735_WIDTH) || (y >= ST7735_HEIGHT))
-        return;
-
+    
+//	if((x >= ST7735_WIDTH) || (y >= ST7735_HEIGHT))
+//        return;
 
     ST7735_SetAddressWindow(x, y, x+1, y+1);
     uint8_t data[] = { color >> 8, color & 0xFF };
@@ -202,72 +199,12 @@ void ST7735_DrawPixel(uint16_t x, uint16_t y, uint16_t color) {
 
 }
 
-static void ST7735_WriteChar(uint16_t x, uint16_t y, char ch, FontDef font, uint16_t color, uint16_t bgcolor) {
-    uint32_t i, b, j;
-
-    ST7735_SetAddressWindow(x, y, x+font.width-1, y+font.height-1);
-
-    for(i = 0; i < font.height; i++) {
-        b = font.data[(ch - 32) * font.height + i];
-        for(j = 0; j < font.width; j++) {
-            if((b << j) & 0x8000)  {
-                uint8_t data[] = { color >> 8, color & 0xFF };
-                ST7735_WriteData(data, sizeof(data));
-            } else {
-                uint8_t data[] = { bgcolor >> 8, bgcolor & 0xFF };
-                ST7735_WriteData(data, sizeof(data));
-            }
-        }
-    }
-}
-
-/*
-Simpler (and probably slower) implementation:
-
-static void ST7735_WriteChar(uint16_t x, uint16_t y, char ch, FontDef font, uint16_t color) {
-    uint32_t i, b, j;
-
-    for(i = 0; i < font.height; i++) {
-        b = font.data[(ch - 32) * font.height + i];
-        for(j = 0; j < font.width; j++) {
-            if((b << j) & 0x8000)  {
-                ST7735_DrawPixel(x + j, y + i, color);
-            } 
-        }
-    }
-}
-*/
-
-void ST7735_WriteString(uint16_t x, uint16_t y, const char* str, FontDef font, uint16_t color, uint16_t bgcolor) {
-  
-
-    while(*str) {
-        if(x + font.width >= ST7735_WIDTH) {
-            x = 0;
-            y += font.height;
-            if(y + font.height >= ST7735_HEIGHT) {
-                break;
-            }
-
-            if(*str == ' ') {
-                // skip spaces in the beginning of the new line
-                str++;
-                continue;
-            }
-        }
-
-        ST7735_WriteChar(x, y, *str, font, color, bgcolor);
-        x += font.width;
-        str++;
-    }
-
-}
 
 void ST7735_FillRectangle(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint16_t color) {
     // clipping
-    if((x >= ST7735_WIDTH) || (y >= ST7735_HEIGHT)) return;
-    if((x + w - 1) >= ST7735_WIDTH) w = ST7735_WIDTH - x;
-    if((y + h - 1) >= ST7735_HEIGHT) h = ST7735_HEIGHT - y;
+//    if((x >= ST7735_WIDTH) || (y >= ST7735_HEIGHT)) return;
+//    if((x + w - 1) >= ST7735_WIDTH) w = ST7735_WIDTH - x;
+//    if((y + h - 1) >= ST7735_HEIGHT) h = ST7735_HEIGHT - y;
 
     ST7735_SetAddressWindow(x, y, x+w-1, y+h-1);
 
@@ -287,19 +224,12 @@ void ST7735_FillScreen(uint16_t color) {
 }
 
 void ST7735_DrawImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, const uint16_t* data) {
-    if((x >= ST7735_WIDTH) || (y >= ST7735_HEIGHT)) return;
-    if((x + w - 1) >= ST7735_WIDTH) return;
-    if((y + h - 1) >= ST7735_HEIGHT) return;
+	
+//    if((x >= ST7735_WIDTH) || (y >= ST7735_HEIGHT)) return;
+//    if((x + w - 1) >= ST7735_WIDTH) return;
+//    if((y + h - 1) >= ST7735_HEIGHT) return;
 
     ST7735_SetAddressWindow(x, y, x+w-1, y+h-1);
     ST7735_WriteData((uint8_t*)data, sizeof(uint16_t)*w*h);
 
 }
-
-void ST7735_InvertColors(bool invert) {
-
-    ST7735_WriteCommand(invert ? ST7735_INVON : ST7735_INVOFF);
-
-}
-
-
