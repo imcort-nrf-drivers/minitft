@@ -86,10 +86,10 @@ void ST7735_Init() {
 		spi_init();
 		pinMode(TFT_DC, OUTPUT);
 		pinMode(TFT_CS, OUTPUT);
-		pinMode(TFT_BL, OUTPUT);
+		//pinMode(TFT_BL, OUTPUT);
 		
 		digitalWrite(TFT_CS, 1);
-		digitalWrite(TFT_BL, 1);
+		//digitalWrite(TFT_BL, 1);
 	
         ST7735_WriteCommand(0x11);     //Sleep out
 		delay(120);                //Delay 120ms
