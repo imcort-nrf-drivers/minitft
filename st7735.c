@@ -83,7 +83,7 @@ void ST7735_SetAddressWindow(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2) {
 
 void ST7735_Init() {
 		
-		//pinMode(TFT_RESET, OUTPUT);
+		spi_init();
 		pinMode(TFT_DC, OUTPUT);
 		pinMode(TFT_CS, OUTPUT);
 		pinMode(TFT_BL, OUTPUT);
@@ -91,7 +91,7 @@ void ST7735_Init() {
 		digitalWrite(TFT_CS, 1);
 		digitalWrite(TFT_BL, 1);
 	
-    ST7735_WriteCommand(0x11);     //Sleep out
+        ST7735_WriteCommand(0x11);     //Sleep out
 		delay(120);                //Delay 120ms
 		ST7735_WriteCommand(0xB1);     //Normal mode
 		ST7735_WriteData8(0x05);   
@@ -223,13 +223,13 @@ void ST7735_FillScreen(uint16_t color) {
     ST7735_FillRectangle(0, 0, ST7735_WIDTH, ST7735_HEIGHT, color);
 }
 
-void ST7735_DrawImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, const uint16_t* data) {
+void ST7735_DrawImage(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, const uint16_t* data) {
 	
 //    if((x >= ST7735_WIDTH) || (y >= ST7735_HEIGHT)) return;
 //    if((x + w - 1) >= ST7735_WIDTH) return;
 //    if((y + h - 1) >= ST7735_HEIGHT) return;
 
-    ST7735_SetAddressWindow(x, y, x+w-1, y+h-1);
-    ST7735_WriteData((uint8_t*)data, sizeof(uint16_t)*w*h);
+    ST7735_SetAddressWindow(x1, y1, x2, y2);
+    ST7735_WriteData((uint8_t*)data, sizeof(uint16_t)*(x2-x1+1)*(y2-y1+1));
 
 }
