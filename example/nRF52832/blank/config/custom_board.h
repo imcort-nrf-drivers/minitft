@@ -44,7 +44,7 @@
 #define CUSTOM_BOARD_H
 
 #define USE_SPI
-#define TFT_DRIVER_ST7735
+#define TFT_DRIVER_ST7789
 
 //// LEDs definitions for PCA10040
 //#define LEDS_NUMBER    1

@@ -45,7 +45,7 @@
 #include "nrf_log_default_backends.h"
 
 #include "transfer_handler.h"
-#include "st7735.h"
+#include "st7789.h"
 
 int main(void)
 {
@@ -56,12 +56,11 @@ int main(void)
     NRF_LOG_DEFAULT_BACKENDS_INIT();
 	NRF_LOG_INFO("E-paper example started.");
 	NRF_LOG_FLUSH();
-		spi_init();
-		ST7735_Init();
-	ST7735_FillScreen(ST7735_WHITE);
+ST7789_Init();
+	ST7789_FillScreen(ST7789_WHITE);
 	//ST7735_FillScreen(ST7735_CYAN);
-    ST7735_FillRectangle(0,0,50,50,ST7735_CYAN);
-	ST7735_FillRectangle(100,0,50,50,ST7735_CYAN);
+    ST7789_FillRectangle(0,0,50,50,ST7789_CYAN);
+	ST7789_FillRectangle(100,0,50,50,ST7789_CYAN);
 
     while (1)
     {
